@@ -185,6 +185,32 @@ class Random(Strategy):
                 		player.bet(pot, player.stack)
                 	
                 
+class jrbalch(Strategy):
+
+        table = [[4,4,4,4,4,3,3,3,2,2,2,2,2],
+                 [4,4,4,3,3,2,1,1,1,1,1,1,1],
+                 [4,3,4,3,2,1,1,0,0,0,0,0,0],
+                 [4,3,2,4,2,1,1,0,0,0,0,0,0],
+                 [3,2,1,1,4,1,1,0,0,0,0,0,0],
+                 [2,1,1,0,0,4,1,1,0,0,0,0,0],
+                 [1,0,0,0,0,0,4,1,1,0,0,0,0],
+                 [1,0,0,0,0,0,0,4,1,1,0,0,0],
+                 [1,0,0,0,0,0,0,0,3,1,1,0,0],
+                 [1,0,0,0,0,0,0,0,0,3,1,0,0],
+                 [1,0,0,0,0,0,0,0,0,0,3,1,0],
+                 [1,0,0,0,0,0,0,0,0,0,0,2,0],
+                 [1,0,0,0,0,0,0,0,0,0,0,0,2]]
+
+        def decide_play(self, player, pot):
+
+                # Hand = player.get_value()
+
+                # Hand.print_cards(self)
+                # player.check_call(pot)
+                hand = player.hand()
+
+                for Card in hand:
+                        print(Card)
                 
                 
 		
@@ -202,14 +228,11 @@ class Human(Strategy):
         action=''
         op=0
 
-
         if player.to_play==0:
                 op=0
         elif player.to_play<player.stack:
                 op=1
         else: op=2
-
-        
 
         while action not in options[op]:
 
@@ -218,7 +241,6 @@ class Human(Strategy):
                 except NameError:
                  print ('enter a valid choice')
 
-    
         if action=='x':
                 player.check_call(pot)
         elif action=='f':
