@@ -206,11 +206,7 @@ class jrbalch(Strategy):
                 # Hand = player.get_value()
 
                 # Hand.print_cards(self)
-                # player.check_call(pot)
-                hand = player.hand()
-
-                for Card in hand:
-                        print(Card)
+                player.check_call(pot)
                 
                 
 		
