@@ -203,10 +203,70 @@ class jrbalch(Strategy):
 
         def decide_play(self, player, pot):
 
-                # Hand = player.get_value()
+                # Mode 1 is default
+                # Mode 0 is more cautious
+
+                mode = 1
+
+                
+
+                value = player.get_value()[0]
+                cards = player.get_value()[1]
+
+                if mode == 1:
+                        if pot.stage == 0:
+                                player.check_call(pot)
+                        elif pot.stage == 1:
+                                if value > 1:
+                                        player.check_call(pot)
+                                else:
+                                        player.fold(pot)
+                        elif pot.stage == 2:
+                                if value > 10:
+                                        player.check_call(pot)
+                                else:
+                                        player.fold(pot)
+                        elif pot.stage == 3:
+                                if value > 50:
+                                        player.check_call(pot)
+                                else:
+                                        player.fold(pot)
+
+                elif mode == 0:
+                        if pot.stage == 0:
+                                player.check_call(pot)
+                        elif pot.stage == 1:
+                                if value > 1:
+                                        player.check_call(pot)
+                                else:
+                                        player.fold(pot)
+                        elif pot.stage == 2:
+                                if value > 10:
+                                        player.check_call(pot)
+                                else:
+                                        player.fold(pot)
+                        elif pot.stage == 3:
+                                if value > 50:
+                                        player.check_call(pot)
+                                else:
+                                        player.fold(pot)
+
+                print ('Hand Value: '+ (str)(value))
 
                 # Hand.print_cards(self)
+                # player.hand.print_cards()
+                # hand_cards = player.hand.cards
+                # if(hand_cards != []):
+                #         print ("No cards in hand")
+                
                 player.check_call(pot)
+
+        # def bet_amount(player, pot):
+        #         if pot.stage == 0:
+
+                        
+
+                
                 
                 
 		
@@ -218,6 +278,8 @@ class Human(Strategy):
     def decide_play(self, player, pot):
         
         player.get_value()
+        value = player.get_value()[0]
+        print ('Hand Value: '+ (str)(value))
         
         options=Human.options
         choices=Human.choices

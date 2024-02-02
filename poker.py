@@ -364,7 +364,6 @@ class Pot(object):
     pot_number=0
     
     def __init__(self, table, name):
-        
    
         self.players=[]
         self.folded_players=[]
@@ -810,10 +809,10 @@ BLINDS=[10,20]
 
 table=Table()
 
-player1=Hand('Josh', table, 'jrbalch')
-player2=Hand('Igor', table, 'Random')
-player3=Hand('Carol', table, 'SklanskySys2')
-# player4=Hand('Johnboy', table, 'SklanskySys2')
+player1=Hand('JBot', table, 'jrbalch')
+player2=Hand('Igor', table, 'SklanskySys2')
+player3=Hand('BatshitCarol', table, 'Random')
+player4=Hand('Putin', table, 'SklanskySys2')
 # player5=Hand('Rob', table, 'SklanskySys2')
 # player6=Hand('Alex', table, 'SklanskySys2')
 # player7=Hand('Wynona', table, 'SklanskySys2')
