@@ -11,8 +11,10 @@ def calc_bet(player):
                    
         max_bet=player.stack-player.to_play
         min_bet=player.to_play
+
         if max_bet<min_bet:
         	min_bet=max_bet
+        
         print ('max bet '+str(max_bet))
         print ('min be  '+str(min_bet))
         
@@ -203,53 +205,34 @@ class jrbalch(Strategy):
 
         def decide_play(self, player, pot):
 
-                # Mode 1 is default
-                # Mode 0 is more cautious
+                # Mode 0 is default
+                # Mode 1 is more cautious
+                # Mode 2 is more aggressive
 
-                mode = 1
-
-                
+                mode = 0
 
                 value = player.get_value()[0]
                 cards = player.get_value()[1]
 
-                if mode == 1:
-                        if pot.stage == 0:
-                                player.check_call(pot)
-                        elif pot.stage == 1:
-                                if value > 1:
-                                        player.check_call(pot)
-                                else:
-                                        player.fold(pot)
-                        elif pot.stage == 2:
-                                if value > 10:
-                                        player.check_call(pot)
-                                else:
-                                        player.fold(pot)
-                        elif pot.stage == 3:
-                                if value > 50:
-                                        player.check_call(pot)
-                                else:
-                                        player.fold(pot)
+                if player.stack < 100:
+                        mode = 1
+                elif player.stack > 500:
+                        mode = 2
 
-                elif mode == 0:
-                        if pot.stage == 0:
+                if mode == 0:
+                        thresholds = [5, 10, 50, 50]
+                elif mode == 1:
+                        thresholds = [1, 10, 50, 50]
+                elif mode == 2:
+                        player.bet(pot, bet_amount(player))
+                else:
+                        raise ValueError("Invalid mode")
+
+                if mode != 2:
+                        if value > thresholds[pot.stage]:
                                 player.check_call(pot)
-                        elif pot.stage == 1:
-                                if value > 1:
-                                        player.check_call(pot)
-                                else:
-                                        player.fold(pot)
-                        elif pot.stage == 2:
-                                if value > 10:
-                                        player.check_call(pot)
-                                else:
-                                        player.fold(pot)
-                        elif pot.stage == 3:
-                                if value > 50:
-                                        player.check_call(pot)
-                                else:
-                                        player.fold(pot)
+                        else:
+                                player.fold(pot)
 
                 print ('Hand Value: '+ (str)(value))
 
@@ -259,10 +242,24 @@ class jrbalch(Strategy):
                 # if(hand_cards != []):
                 #         print ("No cards in hand")
                 
-                player.check_call(pot)
 
         # def bet_amount(player, pot):
         #         if pot.stage == 0:
+                
+def bet_amount(player):
+        max_bet=player.stack-player.to_play
+        min_bet=player.to_play
+
+        if max_bet<min_bet:
+                min_bet=max_bet
+
+        if max_bet<0:
+                max_bet=player.stack
+				
+        bet_amount = random.randrange(min_bet, max_bet + 1, 5)
+        
+        
+        return bet_amount
 
                         
 
