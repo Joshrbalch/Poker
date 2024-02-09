@@ -810,7 +810,7 @@ BLINDS=[10,20]
 table=Table()
 
 player1=Hand('JBot', table, 'jrbalch')
-player2=Hand('Igor', table, 'SklanskySys2')
+# player2=Hand('Josh', table, 'Human')
 player3=Hand('BatshitCarol', table, 'Random')
 player4=Hand('Putin', table, 'SklanskySys2')
 player5=Hand('Rob', table, 'SklanskySys2')
