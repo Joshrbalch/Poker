@@ -1,3 +1,5 @@
+import random, pokerhands
+
 class jrbalch(Strategy):
     def determine_mode(self, player):
                 # Mode 0 is default, 1 is cautious, and 2 is aggressive

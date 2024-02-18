@@ -1,6 +1,6 @@
 ##poker player strategy and i/o
 
-import random, pokerhands
+import random, pokerhands, jrbalch
 
 def evaluate(player):
 	
