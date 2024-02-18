@@ -191,19 +191,27 @@ class jrbalch(Strategy):
         # Determine the mode of play based on player's stack size
         mode = self.determine_mode(player)
 
-        for card in player.cards:
-            print(card)
+        # for card in player.cards:
+        #     print(card)
 
         # Get the player's hand value and cards
-        value, cards = player.get_value()
+        value = player.get_value()[0]
 
         # Set thresholds based on the selected mode
         thresholds = self.set_thresholds(mode)
 
+        if pot.total > player.stack:
+                player.fold(pot)
+
         # Decide the action based on mode and hand value
-        if mode != 2:
+        elif mode != 2:
             if value > thresholds[pot.stage]:
-                player.check_call(pot)
+                if mode == 1 and player.stack > 0.5 * pot.total:
+                        player.check_call(pot)
+                elif mode == 0 and player.stack > 0.5 * pot.total:
+                        player.check_call(pot)
+                else:
+                        player.fold(pot)
             else:
                 player.fold(pot)
         else:
@@ -214,9 +222,9 @@ class jrbalch(Strategy):
 
     def determine_mode(self, player):
         # Mode 0 is default, 1 is cautious, and 2 is aggressive
-        if player.stack < 100:
+        if player.stack < 400:
             return 1
-        elif player.stack > 500:
+        elif player.stack < 800:
             return 2
         else:
             return 0
@@ -224,9 +232,9 @@ class jrbalch(Strategy):
     def set_thresholds(self, mode):
         # Define thresholds for each mode
         if mode == 0:
-            return [10, 15, 50, 50]
+            return [10, 15, 50, 50, 0, 0, 0]
         elif mode == 1:
-            return [1, 10, 50, 50]
+            return [1, 10, 50, 50, 0, 0, 0]
         elif mode == 2:
             return None  # No thresholds needed for aggressive mode
         else:
@@ -240,6 +248,12 @@ def bet_amount(player):
         min_bet = max_bet
 
     bet_amount = random.randint(min_bet, max_bet)
+
+    if(bet_amount < 0):
+        bet_amount = -bet_amount 
+
+    print ('bet amount: ', bet_amount)
+
     return bet_amount
 
 class Human(Strategy):
