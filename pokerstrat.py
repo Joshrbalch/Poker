@@ -258,11 +258,11 @@ class jrbalch(Strategy):
                         player.fold(pot)
             else:
                 player.fold(pot)
-
-        if value > 100:
-                player.bet(pot, self.determine_bet(player))
         else:
-                player.check_call(pot)
+                if value > 100:
+                        player.bet(pot, self.determine_bet(player))
+                else:
+                        player.check_call(pot)
 
 class Human(Strategy):
     
