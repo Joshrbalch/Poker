@@ -174,6 +174,7 @@ class Random(Strategy):
                 
                 if choice==0:
                 	player.fold(pot)
+                
                 elif choice==1:
                 	if player.stack<=player.to_play:
                 		player.check_call(pot)
@@ -185,63 +186,86 @@ class Random(Strategy):
                 	else:
                 		player.bet(pot, player.stack)
                 	
-
+                
 class jrbalch(Strategy):
-    def decide_play(self, player, pot):
-        # Determine the mode of play based on player's stack size
-        mode = self.determine_mode(player)
 
-        for card in player.cards:
-            print(card)
+        table = [[4,4,4,4,4,3,3,3,2,2,2,2,2],
+                 [4,4,4,3,3,2,1,1,1,1,1,1,1],
+                 [4,3,4,3,2,1,1,0,0,0,0,0,0],
+                 [4,3,2,4,2,1,1,0,0,0,0,0,0],
+                 [3,2,1,1,4,1,1,0,0,0,0,0,0],
+                 [2,1,1,0,0,4,1,1,0,0,0,0,0],
+                 [1,0,0,0,0,0,4,1,1,0,0,0,0],
+                 [1,0,0,0,0,0,0,4,1,1,0,0,0],
+                 [1,0,0,0,0,0,0,0,3,1,1,0,0],
+                 [1,0,0,0,0,0,0,0,0,3,1,0,0],
+                 [1,0,0,0,0,0,0,0,0,0,3,1,0],
+                 [1,0,0,0,0,0,0,0,0,0,0,2,0],
+                 [1,0,0,0,0,0,0,0,0,0,0,0,2]]
 
-        # Get the player's hand value and cards
-        value, cards = player.get_value()
+        def decide_play(self, player, pot):
 
-        # Set thresholds based on the selected mode
-        thresholds = self.set_thresholds(mode)
+                # Mode 0 is default
+                # Mode 1 is more cautious
+                # Mode 2 is more aggressive
 
-        # Decide the action based on mode and hand value
-        if mode != 2:
-            if value > thresholds[pot.stage]:
-                player.check_call(pot)
-            else:
-                player.fold(pot)
-        else:
-            player.bet(pot, bet_amount(player))
+                mode = 0
 
-        # Print hand value for debugging
-        print('Hand Value:', value)
+                value = player.get_value()[0]
+                cards = player.get_value()[1]
 
-    def determine_mode(self, player):
-        # Mode 0 is default, 1 is cautious, and 2 is aggressive
-        if player.stack < 100:
-            return 1
-        elif player.stack > 500:
-            return 2
-        else:
-            return 0
+                if player.stack < 100:
+                        mode = 1
+                elif player.stack > 500:
+                        mode = 2
 
-    def set_thresholds(self, mode):
-        # Define thresholds for each mode
-        if mode == 0:
-            return [10, 15, 50, 50]
-        elif mode == 1:
-            return [1, 10, 50, 50]
-        elif mode == 2:
-            return None  # No thresholds needed for aggressive mode
-        else:
-            raise ValueError("Invalid mode")
+                if mode == 0:
+                        thresholds = [5, 10, 50, 50]
+                elif mode == 1:
+                        thresholds = [1, 10, 50, 50]
+                elif mode == 2:
+                        player.bet(pot, bet_amount(player))
+                else:
+                        raise ValueError("Invalid mode")
 
+                if mode != 2:
+                        if value > thresholds[pot.stage]:
+                                player.check_call(pot)
+                        else:
+                                player.fold(pot)
+
+                print ('Hand Value: '+ (str)(value))
+
+                # Hand.print_cards(self)
+                # player.hand.print_cards()
+                # hand_cards = player.hand.cards
+                # if(hand_cards != []):
+                #         print ("No cards in hand")
+                
+
+        # def bet_amount(player, pot):
+        #         if pot.stage == 0:
+                
 def bet_amount(player):
-    max_bet = player.stack - player.to_play
-    min_bet = max(0, player.to_play)  # Ensure min_bet doesn't exceed max_bet
+        max_bet=player.stack-player.to_play
+        min_bet=player.to_play
 
-    if max_bet < min_bet:
-        min_bet = max_bet
+        if max_bet<min_bet:
+                min_bet=max_bet
 
-    bet_amount = random.randint(min_bet, max_bet)
-    return bet_amount
+        if max_bet<0:
+                max_bet=player.stack
+				
+        bet_amount = random.randrange(min_bet, max_bet + 1, 5)
+        
+        return bet_amount
 
+                        
+
+                
+                
+                
+		
 class Human(Strategy):
     
     options=[['x', 'f', 'b'], ['c', 'r', 'f'], ['c', 'f']]
