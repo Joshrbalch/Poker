@@ -1,6 +1,6 @@
 ##poker player strategy and i/o
 
-import random, pokerhands
+import random, pokerhands, jrbalch
 
 def evaluate(player):
 	
@@ -186,86 +186,6 @@ class Random(Strategy):
                 	else:
                 		player.bet(pot, player.stack)
                 	
-                
-class jrbalch(Strategy):
-
-        table = [[4,4,4,4,4,3,3,3,2,2,2,2,2],
-                 [4,4,4,3,3,2,1,1,1,1,1,1,1],
-                 [4,3,4,3,2,1,1,0,0,0,0,0,0],
-                 [4,3,2,4,2,1,1,0,0,0,0,0,0],
-                 [3,2,1,1,4,1,1,0,0,0,0,0,0],
-                 [2,1,1,0,0,4,1,1,0,0,0,0,0],
-                 [1,0,0,0,0,0,4,1,1,0,0,0,0],
-                 [1,0,0,0,0,0,0,4,1,1,0,0,0],
-                 [1,0,0,0,0,0,0,0,3,1,1,0,0],
-                 [1,0,0,0,0,0,0,0,0,3,1,0,0],
-                 [1,0,0,0,0,0,0,0,0,0,3,1,0],
-                 [1,0,0,0,0,0,0,0,0,0,0,2,0],
-                 [1,0,0,0,0,0,0,0,0,0,0,0,2]]
-
-        def decide_play(self, player, pot):
-
-                # Mode 0 is default
-                # Mode 1 is more cautious
-                # Mode 2 is more aggressive
-
-                mode = 0
-
-                value = player.get_value()[0]
-                cards = player.get_value()[1]
-
-                if player.stack < 100:
-                        mode = 1
-                elif player.stack > 500:
-                        mode = 2
-
-                if mode == 0:
-                        thresholds = [5, 10, 50, 50]
-                elif mode == 1:
-                        thresholds = [1, 10, 50, 50]
-                elif mode == 2:
-                        player.bet(pot, bet_amount(player))
-                else:
-                        raise ValueError("Invalid mode")
-
-                if mode != 2:
-                        if value > thresholds[pot.stage]:
-                                player.check_call(pot)
-                        else:
-                                player.fold(pot)
-
-                print ('Hand Value: '+ (str)(value))
-
-                # Hand.print_cards(self)
-                # player.hand.print_cards()
-                # hand_cards = player.hand.cards
-                # if(hand_cards != []):
-                #         print ("No cards in hand")
-                
-
-        # def bet_amount(player, pot):
-        #         if pot.stage == 0:
-                
-def bet_amount(player):
-        max_bet=player.stack-player.to_play
-        min_bet=player.to_play
-
-        if max_bet<min_bet:
-                min_bet=max_bet
-
-        if max_bet<0:
-                max_bet=player.stack
-				
-        bet_amount = random.randrange(min_bet, max_bet + 1, 5)
-        
-        return bet_amount
-
-                        
-
-                
-                
-                
-		
 class Human(Strategy):
     
     options=[['x', 'f', 'b'], ['c', 'r', 'f'], ['c', 'f']]

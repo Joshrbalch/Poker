@@ -182,26 +182,25 @@ class Hand:
             pot.stage=5
 
     def no_play(self, pot):
-    	
-    	next_player(pot)
-
-    	self.stake=0
+        
+        next_player(pot)
+        self.stake = 0
     	
    	
     def check_call(self, pot):
     	
         
         
-        if self.to_play==0:
-            print (str(self.name)+' checks')
+        if self.to_play == 0:
+            print(str(self.name) + ' checks')
         else:
-        		if self.to_play>self.stack:
-        			self.stake=self.stack
-        		else:
-        			self.stake=self.to_play
-        		print (str(self.name)+' calls '+str(self.stake))
-        		if pot.stage==0 and pot.raised==False:
-        			pot.limpers+=1
+            if self.to_play > self.stack:
+                self.stake = self.stack
+            else:
+                self.stake = self.to_play
+            print(str(self.name) + ' calls ' + str(self.stake))
+            if pot.stage == 0 and pot.raised == False:
+                pot.limpers += 1
 
         next_player(pot)
     
@@ -345,13 +344,13 @@ class Table(Hand):
         print (rep)
 
     def print_players(self):
-    	
-    	for player in self.players:
-    		print (player)
-    		
+        
+        for player in self.players:
+            print (player)
+            
     def clear(self):
 
-      self.cards=[]
+        self.cards=[]
       
       
 
@@ -392,9 +391,9 @@ class Pot(object):
 
     def is_frozen(self):
 
-        if len(self.active_players)<=1:
-        	self.active_players=[]
-        	return True
+        if len(self.active_players) <= 1:
+            self.active_players = []
+            return True
         else:
             return False
 
@@ -499,18 +498,17 @@ def debug(pot):
     
     
     for pot in pots:
-            print (str(pot.name)+' total '+ str(pot.total))
-            print ('yet to play:'+str(pot.yet_to_play))
-            print ('active players')
-            for player in pot.active_players:
-            	print (str(player.name))
+        print ('table size '+str(pot.table_size))
+        print ('yet to play:'+str(pot.yet_to_play))
+        print ('active players')
+        for player in pot.active_players:
+            print (str(player.name))
 
-            print ('table size '+str(pot.table_size))
-            print ('limpers='+str(pot.limpers))
-            print ('no raise '+str(pot.no_raise))
-            print ('frozen='+str(pot.is_frozen))
-            print ('one remaining='+str(pot.one_remaining))
-            print ('Pot to play:  '+str(pot.to_play))
+        print ('limpers='+str(pot.limpers))
+        print ('no raise '+str(pot.no_raise))
+        print ('frozen='+str(pot.is_frozen))
+        print ('one remaining='+str(pot.one_remaining))
+        print ('Pot to play:  '+str(pot.to_play))
     print ('turn'+str(pot.turn)+'  no_raise'+str(pot.no_raise))
     print ('______________________________')
 
@@ -632,15 +630,13 @@ def betting_round(pot, table):
     if is_side_pot:
         
         for player in pots[-1].players:
-        	if player.is_folded==False:
-        		
-        		side_potters.append(player)
-            
-        side_potters.sort(key=attrgetter('in_pot'), reverse=True)
-        big_bet=side_potters[0].in_pot
-        
+            if player.is_folded == False:
+                side_potters.append(player)
 
-        next_pot_players=[]
+        side_potters.sort(key=attrgetter('in_pot'), reverse=True)
+        big_bet = side_potters[0].in_pot
+
+        next_pot_players = []
     
         
         
@@ -659,21 +655,20 @@ def betting_round(pot, table):
                 create_side_pot=True
 
             player.in_pot-=refund
-            pot.total-=refund
-            player.stack+=refund
-            player.carry_over=refund
+            pot.total -= refund
+            player.stack += refund
+            player.carry_over = refund
 
-            print ('player in side pot - '+str(player.name))
-            
-            if player.carry_over>0:
-            	next_pot_players.append(player)
+            print('player in side pot - ' + str(player.name))
+
+            if player.carry_over > 0:
+                next_pot_players.append(player)
             else:
                 if player in pots[-1].active_players:
                     pots[-1].active_players.remove(player)
-      
-            
-            print (str(player.name))
-            print ('refund...'+str(refund))
+
+            print(str(player.name))
+            print('refund...' + str(refund))
 
 #create side pots _________________________________________________
 
@@ -690,9 +685,9 @@ def betting_round(pot, table):
                 player.stack-=player.carry_over
                 
                 if player.stack>0:
-                	player.first_all_in=False
-                	player.all_in=False
-                	pots[-1].active_players.append(player)
+                    player.first_all_in=False
+                    player.all_in=False
+                    pots[-1].active_players.append(player)
                 
                 
                 
@@ -745,14 +740,14 @@ def showdown(pot):
     else:
 
         for player in pot.players:
-        	if player.is_folded==False:
-        		player.get_value()
-        		scoring.append(player)
-                 
-                 
-                 
+            if player.is_folded == False:
+                player.get_value()
+                scoring.append(player)
+                         
+                         
+                         
         #rank hands in value+tie break order
-                 
+                         
         scoring.sort(key=attrgetter('hand_value', 'tie_break'), reverse=True)
         split_pot=[]
         print ('\n\n\n')
@@ -810,11 +805,11 @@ BLINDS=[10,20]
 table=Table()
 
 player1=Hand('JBot', table, 'jrbalch')
-# player2=Hand('Josh', table, 'Human')
-player3=Hand('BatshitCarol', table, 'Random')
+player2=Hand('Bookie', table, 'jrbalch')
+player3=Hand('Pookie', table, 'jrbalch')
 player4=Hand('Putin', table, 'SklanskySys2')
-player5=Hand('Rob', table, 'SklanskySys2')
-player6=Hand('Alex', table, 'SklanskySys2')
+# player5=Hand('SillyRob', table, 'Random')
+# player6=Hand('CrazyAlex', table, 'Random')
 player7=Hand('Wynona', table, 'SklanskySys2')
 player8=Hand('Timur', table, 'SklanskySys2')
 
@@ -884,21 +879,20 @@ while status=='play':
          
     
     table.hands+=1
-    table.blinds_timer=table.hands%6
-    if table.blinds_timer==5:
-        BLINDS[:] = [x*2 for x in BLINDS]
+    table.blinds_timer = table.hands % 6
+    if table.blinds_timer == 5:
+        BLINDS[:] = [x * 2 for x in BLINDS]
         
     for player in table.players[:]:
-        	print (player.name, player.stack, BLINDS[1])
-        	if player.stack<=BLINDS[1]:
-        		
-        		player.bust()
-        		
-    if len(table.players)==1:
-    	status='winner'
+        print(player.name, player.stack, BLINDS[1])
+        if player.stack <= BLINDS[1]:
+            player.bust()
+            
+    if len(table.players) == 1:
+        status = 'winner'
     
           
-    print ('\n\n\n')
+    print('\n\n\n')
     
     next_hand(table, deck)
     

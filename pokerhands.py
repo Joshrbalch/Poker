@@ -80,9 +80,9 @@ def evaluate_hand(cards):
 
     limit=len(values)
     if limit>5:
-    	 limit=5
+    	limit=5
         
-    straight=is_straight(values, limit)
+    straight = is_straight(values, limit)
     
     #iterate through values
     
@@ -97,14 +97,14 @@ def evaluate_hand(cards):
             multiples_l[value].append(key)
             
             for element in values:
-            	#removes the valuable cards and leaves the rest in 'values'
-            	if element==key:
-            		remove_list.append(element)
-            		#separate out the valuable 
-            		winning_cards.append(element)
+                #removes the valuable cards and leaves the rest in 'values'
+                if element==key:
+                    remove_list.append(element)
+                    #separate out the valuable 
+                    winning_cards.append(element)
             
             for item in remove_list:
-            	values.remove(item)
+                values.remove(item)
             
             winning_cards.sort(reverse=True)
             
@@ -127,14 +127,12 @@ def evaluate_hand(cards):
     # check for flush
     
     for key, value in suit_count.items():
-    	
-    		flush_score=0
-    		
-    		if value==5:
-    			flush=True
-    			high_card=False
-    		else:
-    			flush_score=value
+        flush_score=0
+        if value==5:
+            flush=True
+            high_card=False
+        else:
+            flush_score=value
 
     #find values     
  
